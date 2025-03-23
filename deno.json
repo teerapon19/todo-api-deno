@@ -1,0 +1,6 @@
+{
+    "imports": {
+        "abc": "https://deno.land/x/abc@v1.3.3/mod.ts",
+        "mongo": "npm:mongodb@6.1.0"
+    }
+}

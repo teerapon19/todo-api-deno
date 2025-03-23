@@ -1,2 +1,5 @@
 .vscode
 .deno_plugins
+.env
+mongodb_data_container
+todo_app

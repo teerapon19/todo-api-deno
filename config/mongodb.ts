@@ -1,16 +1,20 @@
-import {
-  init,
-  MongoClient
-} from "https://deno.land/x/mongo@v0.6.0/mod.ts";
+import "jsr:@std/dotenv/load";
+import querystring from "node:querystring";
+import { MongoClient } from "mongo";
 
-await init();
+const dbDatabes = Deno.env.get("MONGODB_DB_NAME") || "deno_todo";
+const dbUsername = Deno.env.get("MONGODB_USERNAME");
+const dbPwd = Deno.env.get("MONGODB_PASSWORD") || "";
+const dbHost = Deno.env.get("MONGODB_HOST") || "localhost";
+const dbPort = Deno.env.get("MONGODB_PORT") || 27017;
 
-const client = new MongoClient();
+const pwd = querystring.escape(dbPwd);
 
-const dbDatabes = Deno.env.get("DB_NAME") || "deno_todo";
-const dbUrl = Deno.env.get("DB_URL") || "mongodb://localhost:27017";
+const dbUrl = `mongodb://${dbUsername}:${pwd}@${dbHost}:${dbPort}/?authMechanism=DEFAULT`;
 
-client.connectWithUri(dbUrl);
-const db = client.database(dbDatabes);
+const client = new MongoClient(dbUrl);
+
+await client.connect();
+const db = client.db(dbDatabes);
 
 export default db;
